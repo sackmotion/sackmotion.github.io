@@ -1,0 +1,311 @@
+<html>
+<head>
+<style type="text/css">
+html *{
+    font-size: 0.8em !important;
+    color: #000 !important;
+    font-family: Arial !important;
+	background-color: #92a8d1;
+}
+
+.flex-container {
+  display: flex;
+  /*background-color: DodgerBlue;*/
+}
+
+.flex-container > div {
+  background-color: #f1f1f1;
+  margin: 10px;
+  padding: 20px;
+  font-size: 30px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+    flex: 33%;
+    max-width: 33%;
+    padding: 0 4px;
+}
+
+.result {
+	background-color: #FFFFFF;
+    border-width: thin;
+    border-color: black;    
+    border-style: solid;
+    min-height: 50px;
+}
+
+.column img {
+    margin-top: 8px;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.input_lines {
+    margin-left: 10px;
+	margin-right: 10px;
+}
+
+.run_interval {
+    margin-left: 10px;
+	margin-right: 10px;
+}
+
+.buttonRun {
+    margin-left: 2px;
+    margin-right: 5px;
+}
+
+.hide_loading {
+	 display: none;
+	 /*visibility: hidden;*/
+}
+
+.loading {
+  display: inline-block;
+  /*visibility: visible;*/
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.loading div {
+  position: absolute;
+  border: 4px solid #fff;
+  opacity: 1;
+  border-radius: 50%;
+  animation: loading 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.loading div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes loading {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
+}
+
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+/*
+@media screen and (max-width: 800px) {
+  .column {
+      flex: 50%;
+      max-width: 50%;
+  }
+}
+*/
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+/*
+@media screen and (max-width: 600px) {
+  .column {
+      flex: 100%;
+      max-width: 100%;
+  }
+}
+*/
+</style>
+</head>
+<body>
+
+
+<div class="row">
+    <button id="runButton1" class="buttonRun">Run 1</button>
+    <button id="runButton2" class="buttonRun">Run 2</button>
+    <button id="runButton3" class="buttonRun">Run 3</button>
+    <button id="runButton4" class="buttonRun">Run 4</button>
+    <button id="runButton5" class="buttonRun">Run 5</button>
+    <button id="runButton6" class="buttonRun">Run 6</button>
+    <button id="runButton7" class="buttonRun">Run 7</button>
+    <button id="runButton8" class="buttonRun">Run 8</button>
+    <button id="runButton9" class="buttonRun">Run 9</button>
+    Lines <input id="number_of_lines" class="input_lines" value="10"></input>
+    Run interval (in seconds) <input id="run_interval" class="run_interval" value="45"></input>
+</div>
+
+<!-- <div class="loading" id="loading_id"><div></div><div></div></div> -->
+
+<div class="flex-container">
+    
+<!-- <div class="row"> -->
+    <div class="column">
+        <div id="result1" class="result"></div>
+        <div id="result2" class="result"></div>
+        <div id="result3" class="result"></div>
+    </div>
+    
+    <div class="column">
+        <div id="result4" class="result"></div>
+        <div id="result5" class="result"></div>
+        <div id="result6" class="result"></div>
+    </div>
+    
+    <div class="column">
+        <div id="result7" class="result"></div>
+        <div id="result8" class="result"></div>
+        <div id="result9" class="result"></div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    function xml_http_post(url, data, id) {
+        var number_of_lines = document.getElementById('number_of_lines').value
+        var req = new XMLHttpRequest();
+        req.open("POST", url, true);
+        
+        /*
+        req.onreadystatechange = function() {
+            if (req.readyState == 4) {
+                console.log(req.responseText);
+                id.innerHTML = req.responseText;
+            }
+        }
+        */
+        
+        req.send(number_of_lines);
+        
+
+        req.onload = function() {
+          if (req.status != 200) { // analiza el estado HTTP de la respuesta
+            //console.log(`Error ${req.status}: ${req.statusText}`); // ej. 404: No encontrado
+            id.innerHTML = `Error ${req.status}: ${req.statusText}`;
+          } else { // muestra el resultado
+            //console.log(`Hecho, obtenidos ${req.response.length} bytes`); // Respuesta del servidor
+            id.innerHTML = req.responseText;
+          }
+        };
+        
+        req.onerror = function() {
+          id.innerHTML = "Request failed " + url;
+          //console.log("Request failed " + url);
+        };
+    }
+
+    function runbuttonfunc1(url, data, id) {
+        var _result = document.getElementById('result1');
+        xml_http_post("http://52.13.3.12:12880/","10",_result);
+    }
+
+    function runbuttonfunc2(url, data, id) {
+        var _result = document.getElementById('result2');
+        xml_http_post("http://52.33.66.194:12880/","10",_result);
+    }
+    
+    function runbuttonfunc3(url, data, id) {
+        var _result = document.getElementById('result3');
+        xml_http_post("http://44.240.89.232:12880/","10",_result);
+    }
+    
+    function runbuttonfunc4(url, data, id) {
+        var _result = document.getElementById('result4');
+        xml_http_post("http://52.43.164.168:12880/","10",_result);
+    }
+    
+    function runbuttonfunc5(url, data, id) {
+        var _result = document.getElementById('result5');
+        xml_http_post("http://35.155.141.211:12880/","10",_result);
+    }
+    
+    function runbuttonfunc6(url, data, id) {
+        var _result = document.getElementById('result6');
+        xml_http_post("http://localhost:8005/","10",_result);
+    }
+    
+    function runbuttonfunc7(url, data, id) {
+        var _result = document.getElementById('result7');
+        xml_http_post("http://localhost:8006/","10",_result);
+    }
+    
+    function runbuttonfunc8(url, data, id) {
+        var _result = document.getElementById('result8');
+        xml_http_post("http://localhost:8007/","10",_result);
+    }
+    
+    function runbuttonfunc9(url, data, id) {
+        var _result = document.getElementById('result9');
+        xml_http_post("http://localhost:8008/","10",_result);
+    }
+    
+    document.getElementById("runButton1").onclick = runbuttonfunc1;
+    document.getElementById("runButton2").onclick = runbuttonfunc2;
+    document.getElementById("runButton3").onclick = runbuttonfunc3;
+    document.getElementById("runButton4").onclick = runbuttonfunc4;
+    document.getElementById("runButton5").onclick = runbuttonfunc5;
+    document.getElementById("runButton6").onclick = runbuttonfunc6;
+    document.getElementById("runButton7").onclick = runbuttonfunc7;
+    document.getElementById("runButton8").onclick = runbuttonfunc8; 
+    document.getElementById("runButton9").onclick = runbuttonfunc9; 
+    
+    function run_all () {
+        
+        runbuttonfunc1();
+        runbuttonfunc2();
+        runbuttonfunc3();
+        runbuttonfunc4();
+        runbuttonfunc5();
+        runbuttonfunc6();
+        runbuttonfunc7();
+        runbuttonfunc8();
+        runbuttonfunc9();
+    }
+    //setInterval(runbuttonfunc, 60000); // run every minute
+    
+    //setInterval(run_all, document.getElementById('run_interval').value);
+    
+    //var timing = parseInt(document.getElementById('run_interval').value);
+    
+	
+	function sleep(time){
+	      return new Promise((resolve)=>setTimeout(resolve,time)
+	    )
+	}
+	
+	function toggle (target, cclass) {
+	  document.getElementById(target).classList.toggle(cclass);
+	}
+	
+    function loop() {
+
+		let currentDate = new Date();
+		let minutes = currentDate.getMinutes();
+		if (minutes < 10) 
+			{ minutes =  "0" + minutes; }
+		let time = currentDate.getHours() + ":" + minutes + ":" + currentDate.getSeconds();
+		console.log(time);
+		
+        timing = parseInt(document.getElementById('run_interval').value) * 1000;
+		
+        run_all();
+		
+		sleep(2000).then(()=>{
+		   console.log('you can see me after 2000 milliseconds');
+		})
+		//x.style.display = "inline-block";
+        window.setTimeout(loop, timing);
+		//x.style.display = "none";
+		
+    }
+    
+    loop();
+</script>
+    </body>
+</html>

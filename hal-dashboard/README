@@ -1,0 +1,38 @@
+README 
+
+4 Files :
+
+1) start-monitor.sh
+
+Init script to run on each machine the monitor script ( http-server-tail2.py ).
+
+
+
+2) stop-monitor.sh
+
+stop scriot to kill the monitor script.
+
+
+
+3) http-server-tail2.py [PORT] [LOG_FILE]
+
+Python 3 script that run listening in a TCP PORT and tail last n lines of LOG_FILE
+
+by default PORT is 12880 and LOG_FILE is hal_log.log.
+
+This daemon accepts http POST requests from a dashboard.html page ( using javascript AJAX )
+
+
+
+4) dashboard.html
+
+This is the UI to run in a server or locally from mobile or computer.
+
+5) Install
+
+copy all sh and py to GIT/hal/
+
+and add to ~/GIT/hal/starthal.sh the following line at the end of file :
+
+
+~/GIT/hal/start-monitor.sh
