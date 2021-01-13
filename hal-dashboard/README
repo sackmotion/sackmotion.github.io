@@ -36,3 +36,10 @@ and add to ~/GIT/hal/starthal.sh the following line at the end of file :
 
 
 ~/GIT/hal/start-monitor.sh
+
+
+
+6) ssl 
+
+
+openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 3650
